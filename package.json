@@ -1,0 +1,22 @@
+{
+  "name": "react-koa-mongodb",
+  "version": "1.0.0",
+  "description": "react-koa-mongodb",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react",
+    "koa",
+    "mongodb"
+  ],
+  "author": "glud",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.11.0",
+    "mongodb": "^3.5.6",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  }
+}
