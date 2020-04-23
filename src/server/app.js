@@ -1,9 +1,13 @@
 const Koa = require("koa");
 const favicon = require("koa-favicon");
+const views = require("koa-views");
 
 const app = new Koa();
 // favicon
 app.use(favicon(__dirname + "/favicon.ico"));
+
+// views
+app.use(views(__dirname, { autoRender: false, map: { html: "ejs" } }));
 
 // logger
 app.use(async (ctx, next) => {
@@ -24,26 +28,45 @@ app.use(async (ctx, next) => {
 app.use(async (ctx, next) => {
   if (ctx.url === "/user") {
     ctx.redirect("/login");
-  }else{
+  } else {
     await next();
   }
 });
 
 // resopnse
-app.use(async (ctx) => {
+app.use(async (ctx, next) => {
   switch (ctx.url) {
     case "/":
-      ctx.body = "hello world KOA";
+      ctx.state = {
+        title: "Home",
+        msg: "home~",
+      };
       break;
     case "/user":
       ctx.body = "User";
       break;
     case "/login":
-      ctx.body = "Login";
+      ctx.state = {
+        title: "Login",
+        msg: "login~",
+      };
+      break;
+    case "/about":
+      ctx.state = {
+        title: "About",
+        msg: "about~",
+      };
       break;
     default:
       break;
   }
+  await next();
+});
+
+// 渲染
+app.use(async (ctx) => {
+  let html = await ctx.render("index");
+  ctx.body = html;
 });
 
 app.listen(3000);

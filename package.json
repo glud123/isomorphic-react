@@ -14,8 +14,10 @@
   "author": "glud",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^3.0.2",
     "koa": "^2.11.0",
     "koa-favicon": "^2.1.0",
+    "koa-views": "^6.2.1",
     "mongodb": "^3.5.6",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
