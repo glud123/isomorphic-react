@@ -3,7 +3,7 @@ const favicon = require("koa-favicon");
 const views = require("koa-views");
 const koaStatic = require("koa-static");
 const path = require("path");
-const react_ssr = require("./dist/src/server/middleware/react-ssr.js").default;
+const react_ssr = require("./middleware/react-ssr.js");
 
 const app = new Koa();
 
@@ -35,5 +35,5 @@ app.use(async (ctx, next) => {
 app.use(react_ssr);
 
 app.listen(3004, () => {
-  console.log("server start on 3004");
+  console.log("===> server start on 3004");
 });

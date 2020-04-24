@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack --config ./webpack/webpack.dev.config.js",
-    "babel-node": "babel ./src -d ./dist/src"
+    "babel-node": "babel ./src -d ./dist/src",
+    "dev-test": "node webpack/scripts/start.js",
+    "fe:watch": "webpack --config ./webpack/webpack.dev.config.js --watch",
+    "svr:watch": "node ./webpack/scripts/svr-watch.js"
   },
   "keywords": [
     "react",
@@ -35,6 +38,7 @@
     "babel-loader": "^8.1.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.10.3",
+    "webpack-node-externals": "^1.7.2"
   }
 }
