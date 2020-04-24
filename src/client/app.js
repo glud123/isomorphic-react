@@ -1,10 +1,5 @@
-import { Component } from "react";
-import { render } from "react-dom";
+import React from "react";
+import { hydrate } from "react-dom";
+import Demo from "./pages/demo.js";
 
-class App extends Component{
-  render(){
-    return <h1>Hello World</h1>
-  }
-}
-
-render();
+hydrate(<Demo />, document.getElementById("app"));
