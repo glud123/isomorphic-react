@@ -5,7 +5,7 @@ export default class Demo extends React.Component {
     super(props);
   }
   handelClick = () => {
-    alert("SSR点");
+    alert("SSR点击");
   };
   render() {
     return (

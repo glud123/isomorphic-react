@@ -8,7 +8,7 @@ export default async (ctx, next) => {
   const htmlDom = renderToString(<Demo />);
   ctx.state = {
     title: "Home",
-    msg: "home~",
+    msg: "home",
     htmlDom: htmlDom,
   };
   let html = await ctx.render("index.html");

@@ -1,19 +1,18 @@
 const { spawn } = require("child_process"); // 创建子进程
 const constantCode = require("./constant.js");
 const { nodeServerPort } = require("../../src/share/pro-config.js");
-const chalk = require("chalk"); // 控制台彩色输出
-
-console.log(chalk.green("===> node server starting ..."));
+const { logger } = require("./util.js");
+logger("node server starting ...");
 
 // 服务端代码 构建服务进程
 const svrCodeWatchProcess = spawn("npm", ["run", "svr:watch"], {
-  stdio: "inherit",
+  // stdio: "inherit",
   shell: process.platform === "win32",
 });
 
 // 前端代码 构建服务进程
 const feCodeWatchProcess = spawn("npm", ["run", "fe:watch"], {
-  stdio: "inherit",
+  // stdio: "inherit",
   shell: process.platform === "win32",
 });
 
@@ -31,7 +30,6 @@ const startNodeServer = () => {
       shell: process.platform === "win32",
     }
   );
-  // nodeSvrProcess.stdout.on("data", logPrint);
 };
 
 // 控制台日志输出
@@ -41,7 +39,7 @@ const logPrint = (data) => {
     // 当接收到服务端代码编译完成通知时，重启 node 服务
     startNodeServer();
   } else {
-    console.log(chalk.red(`===> log -> ${logStr}`));
+    logger(`${logStr}`);
   }
 };
 
@@ -57,20 +55,16 @@ const killChildProcess = () => {
 
 // 主线程关闭关闭子线程
 process.on("close", (code) => {
-  console.log(chalk.red(`\n ===> main process  close ${code}`));
+  logger(`main process  close ${code}`);
   killChildProcess();
 });
 
 // 主线程退出关闭子线程
 process.on("exit", (code) => {
-  console.log(chalk.red(`\n ===> main process exit ${code}`));
+  logger(`main process exit ${code}`);
 });
 
 // 非正常退出
-process.on("SIGINT", () => {
-  svrCodeWatchProcess.stdin &&
-    svrCodeWatchProcess.stdin.write("exit", (error) => {
-      console.log(chalk.red(`\n ===> svr code watch process exit!!!`));
-    });
+process.on("SIGINT", (type,data) => {
   killChildProcess();
 });

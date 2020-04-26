@@ -7,5 +7,5 @@ const serverPort = proConfig.nodeServerPort;
 
 // // 启动服务前 检查端口是否被占用，如果占用会将
 freePort(serverPort);
-
+// console.log(123)
 require("../../dist/server/app");

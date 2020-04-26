@@ -1,4 +1,5 @@
 const { exec } = require("child_process");
+const {logger} =require("./util.js");
 // 端口释放
 module.exports = (port) => {
   if (process.platform && process.platform !== "win32") {
@@ -22,9 +23,9 @@ module.exports = (port) => {
         if (address && address != "PID") {
           exec("kill -9 " + address, (err, stdout, stderr) => {
             if (err) {
-              return console.log(`===> 端口 ${port} 释放失败!!!`);
+              return logger(`端口 ${port} 释放失败`);
             }
-            console.log("===> port kill");
+            logger("port kill");
           });
         }
       });

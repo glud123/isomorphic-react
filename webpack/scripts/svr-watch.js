@@ -6,7 +6,7 @@ config.mode = "development";
 
 const compiler = webpack(config);
 
-const wathcing = compiler.watch(
+compiler.watch(
   {
     aggregateTimeout: 300,
     ignored: /node_modules/,
@@ -30,12 +30,5 @@ const wathcing = compiler.watch(
 );
 
 compiler.hooks.done.tap("done", (data) => {
-  console.log("\n server code is done!");
-});
-
-// 收到退出信号后，退出当前进程
-process.stdin.on("data", (data) => {
-  if (data.toString() === "exit") {
-    process.exit();
-  }
+  console.log("server code is done!");
 });

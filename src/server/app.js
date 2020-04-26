@@ -2,7 +2,6 @@ const Koa = require("koa");
 const favicon = require("koa-favicon");
 const views = require("koa-views");
 const koaStatic = require("koa-static");
-const path = require("path");
 const react_ssr = require("./middleware/react-ssr.js");
 const { nodeServerPort } = require("./../share/pro-config.js");
 
@@ -36,5 +35,5 @@ app.use(async (ctx, next) => {
 app.use(react_ssr.default);
 
 app.listen(nodeServerPort, () => {
-  console.log(`===> server start on http://localhost:${nodeServerPort}`);
+  console.log(`server start on http://localhost:${nodeServerPort}`);
 });
