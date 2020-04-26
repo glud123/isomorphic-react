@@ -1,3 +1,4 @@
+const { exec } = require("child_process");
 // 端口释放
 module.exports = (port) => {
   if (process.platform && process.platform !== "win32") {
@@ -8,10 +9,12 @@ module.exports = (port) => {
       port = portArg.split("--")[1];
     }
     let order = `lsof -i :${port}`;
-    let exec = require("child_process").exec;
     exec(order, (err, stdout, stderr) => {
       if (err) {
-        return console.log(err);
+        if(err.signal != null){
+          return console.log(err);
+        }
+        return;
       }
       stdout.split("\n").map((line) => {
         let p = line.trim().split(/\s+/);
@@ -21,7 +24,7 @@ module.exports = (port) => {
             if (err) {
               return console.log(`===> 端口 ${port} 释放失败!!!`);
             }
-            console.log("===> Port Kill ~~~");
+            console.log("===> port kill");
           });
         }
       });

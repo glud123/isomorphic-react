@@ -4,17 +4,18 @@ const views = require("koa-views");
 const koaStatic = require("koa-static");
 const path = require("path");
 const react_ssr = require("./middleware/react-ssr.js");
+const { nodeServerPort } = require("./../share/pro-config.js");
 
 const app = new Koa();
 
 // favicon
-app.use(favicon(__dirname + "/favicon.ico"));
+app.use(favicon("./favicon.ico"));
 
 // views
-app.use(views(__dirname, { autoRender: false, map: { html: "ejs" } }));
+app.use(views("./template", { autoRender: false, map: { html: "ejs" } }));
 
 // 静态资源加载
-app.use(koaStatic(path.join(__dirname, "./dist/static")));
+app.use(koaStatic("./dist/static"));
 
 // logger
 app.use(async (ctx, next) => {
@@ -32,8 +33,8 @@ app.use(async (ctx, next) => {
 });
 
 // react ssr
-app.use(react_ssr);
+app.use(react_ssr.default);
 
-app.listen(3004, () => {
-  console.log("===> server start on 3004");
+app.listen(nodeServerPort, () => {
+  console.log(`===> server start on http://localhost:${nodeServerPort}`);
 });

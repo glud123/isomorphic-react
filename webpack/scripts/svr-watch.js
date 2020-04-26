@@ -16,12 +16,12 @@ const wathcing = compiler.watch(
     let statsJson = stats.toJson("minimal");
     if (statsJson.errors) {
       statsJson.errors.forEach((errStats) => {
-        console.log("XXXXXXXXXXXXX", errStats);
+        console.log(errStats);
       });
     }
     if (statsJson.warnings) {
       statsJson.warnings.forEach((warStats) => {
-        console.log("??????????????", warStats);
+        console.log(warStats);
       });
     }
     //定一个常量，编译完成后 通知主进程来重启node 服务，主进程通过此标志来进行判断是否重启
