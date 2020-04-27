@@ -4,9 +4,7 @@
   "description": "react-koa-mongodb",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --config ./webpack/webpack.dev.config.js",
-    "babel-node": "babel ./src -d ./dist/src",
-    "dev-test": "node webpack/scripts/start.js",
+    "dev": "node webpack/scripts/start.js",
     "fe:watch": "webpack --config ./webpack/webpack.dev.config.js --watch",
     "svr:watch": "node ./webpack/scripts/svr-watch.js"
   },
@@ -27,7 +25,9 @@
     "koa-views": "^6.2.1",
     "mongodb": "^3.5.6",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-router": "^5.1.2",
+    "react-router-dom": "^5.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

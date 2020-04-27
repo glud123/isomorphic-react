@@ -5,6 +5,7 @@ const koaStatic = require("koa-static");
 const react_ssr = require("./middleware/react-ssr.js");
 const { nodeServerPort } = require("./../share/pro-config.js");
 
+
 const app = new Koa();
 
 // favicon

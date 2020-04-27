@@ -1,14 +1,17 @@
 import React from "react";
-
-import Demo from "./../../client/pages/demo.js";
-
+import { StaticRouter, Route } from "react-router";
+import AppRoute from "./../../client/route/index.js";
 import { renderToString } from "react-dom/server";
 
 export default async (ctx, next) => {
-  const htmlDom = renderToString(<Demo />);
+  const htmlDom = renderToString(
+    <StaticRouter location={ctx.path}>
+      <AppRoute />
+    </StaticRouter>
+  );
   ctx.state = {
-    title: "Home",
-    msg: "home",
+    title: "SSR",
+    msg: "react-ssr 同构应用",
     htmlDom: htmlDom,
   };
   let html = await ctx.render("index.html");
