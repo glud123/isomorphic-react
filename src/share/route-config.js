@@ -1,6 +1,6 @@
-import Home from "./../pages/home.js";
-import About from "./../pages/about.js";
-import Demo from "./../pages/demo.js";
+import Home from "../client/pages/home.js";
+import About from "../client/pages/about.js";
+import Demo from "../client/pages/demo.js";
 export default [
   {
     path: "/",

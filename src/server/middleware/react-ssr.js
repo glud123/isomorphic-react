@@ -1,11 +1,21 @@
 import React from "react";
 import { StaticRouter, Route } from "react-router";
-import AppRoute from "./../../client/route/index.js";
 import { renderToString } from "react-dom/server";
+import AppRoute from "./../../client/route/index.js";
+import matchRoute from "./../../share/util/match-route.js";
 
 export default async (ctx, next) => {
+  let targetRoute = matchRoute(ctx.path);
+  let fetchDataFunc = targetRoute.component.getInitialProps;
+  let fetchResult = null;
+  if (fetchDataFunc) {
+    fetchResult = await fetchDataFunc();
+  }
+  let context = {
+    initialData: null,
+  };
   const htmlDom = renderToString(
-    <StaticRouter location={ctx.path}>
+    <StaticRouter location={ctx.path} context={context}>
       <AppRoute />
     </StaticRouter>
   );
@@ -13,6 +23,7 @@ export default async (ctx, next) => {
     title: "SSR",
     msg: "react-ssr 同构应用",
     htmlDom: htmlDom,
+    initialData: JSON.stringify(fetchResult),
   };
   let html = await ctx.render("index.html");
   ctx.body = html;
