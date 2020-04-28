@@ -20,11 +20,26 @@ export default class Home extends Component {
           code: 0,
           data: homeData,
         });
-      }, 500);
+      }, 600);
     });
   }
+  createList = () => {
+    let { listData } = this.state;
+    if (listData && listData.length > 0) {
+      return listData.map((item, index) => {
+        return (
+          <div key={index}>
+            <h3>{item.title}</h3>
+            <p>{item.desc}</p>
+          </div>
+        );
+      });
+    } else {
+      return "暂无数据";
+    }
+  };
   render() {
-    let { pageTitles, listData } = this.state;
+    let { pageTitles } = this.state;
     return (
       <div>
         <div>
@@ -34,18 +49,7 @@ export default class Home extends Component {
           </Link>
         </div>
         <div>{pageTitles}</div>
-        <div>
-          {listData && listData.length > 0
-            ? listData.map((item, index) => {
-                return (
-                  <div key={index}>
-                    <h3>{item.title}</h3>
-                    <p>{item.desc}</p>
-                  </div>
-                );
-              })
-            : "暂无数据"}
-        </div>
+        <div>{this.createList()}</div>
       </div>
     );
   }

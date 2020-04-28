@@ -8,12 +8,14 @@ export default async (ctx, next) => {
   let targetRoute = matchRoute(ctx.path);
   let fetchDataFunc = targetRoute.component.getInitialProps;
   let fetchResult = null;
-  if (fetchDataFunc) {
-    fetchResult = await fetchDataFunc();
-  }
   let context = {
     initialData: null,
   };
+  if (fetchDataFunc) {
+    fetchResult = await fetchDataFunc();
+    context.initialData = fetchResult;
+  }
+  
   const htmlDom = renderToString(
     <StaticRouter location={ctx.path} context={context}>
       <AppRoute />
