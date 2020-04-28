@@ -20,7 +20,7 @@ export default class Home extends Component {
           code: 0,
           data: homeData,
         });
-      }, 600);
+      }, 300);
     });
   }
   createList = () => {
@@ -38,6 +38,16 @@ export default class Home extends Component {
       return "暂无数据";
     }
   };
+  componentDidMount() {
+    if (!this.state.listData) {
+      Home.getInitialProps().then((res) => {
+        console.log(res)
+        this.setState({
+          listData: res.data,
+        });
+      });
+    }
+  }
   render() {
     let { pageTitles } = this.state;
     return (
