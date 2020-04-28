@@ -1,31 +1,26 @@
-const { exec } = require("child_process");
-const {logger} =require("./util.js");
+// const { exec } = require("child_process");
+const spawn = require("cross-spawn");
 // 端口释放
-module.exports = (port) => {
+module.exports = (port, appPath) => {
   if (process.platform && process.platform !== "win32") {
     // macOS linux
-    const args = process.argv.slice(2);
-    let portArg = args && args[0];
-    if (portArg && portArg.indexOf("--") > 0) {
-      port = portArg.split("--")[1];
-    }
-    let order = `lsof -i :${port}`;
-    exec(order, (err, stdout, stderr) => {
-      if (err) {
-        if(err.signal != null){
-          return console.log(err);
-        }
-        return;
+    const lsofWatcher = spawn("lsof", ["-i", `:${port}`]);
+    lsofWatcher.on("close", (code) => {
+      if (typeof(code) === "number") {
+        require(appPath);
       }
-      stdout.split("\n").map((line) => {
+    });
+    lsofWatcher.stdout.on("data", (data) => {
+      let dataStr = data.toString();
+      dataStr.split("\n").map((line) => {
         let p = line.trim().split(/\s+/);
         let address = p[1];
         if (address && address != "PID") {
-          exec("kill -9 " + address, (err, stdout, stderr) => {
-            if (err) {
-              return logger(`端口 ${port} 释放失败`);
+          const killWatcher = spawn("kill", ["-9", address]);
+          killWatcher.on("close", (code) => {
+            if (typeof(code) === "number") {
+              require(appPath);
             }
-            logger("port kill");
           });
         }
       });

@@ -2,32 +2,27 @@ const { spawn } = require("child_process"); // 创建子进程
 const constantCode = require("./constant.js");
 const { nodeServerPort } = require("../../src/share/pro-config.js");
 const { logger } = require("./util.js");
-logger("node server starting ...");
 
-// 服务端代码 构建服务进程
-const svrCodeWatchProcess = spawn("npm", ["run", "svr:watch"], {
-  // stdio: "inherit",
-  shell: process.platform === "win32",
-});
+logger("node server starting ...");
 
 // 前端代码 构建服务进程
 const feCodeWatchProcess = spawn("npm", ["run", "fe:watch"], {
   // stdio: "inherit",
-  shell: process.platform === "win32",
 });
+
+// 服务端代码 构建服务进程
+const svrCodeWatchProcess = spawn("npm", ["run", "svr:watch"]);
 
 // node 服务进程
 let nodeSvrProcess = null;
 
 // 启动 node 服务
 const startNodeServer = () => {
-  nodeSvrProcess && nodeSvrProcess.kill();
   nodeSvrProcess = spawn(
     "node",
     ["./webpack/scripts/svr-dev-server.js", nodeServerPort],
     {
       stdio: "inherit",
-      shell: process.platform === "win32",
     }
   );
 };
@@ -35,7 +30,7 @@ const startNodeServer = () => {
 // 控制台日志输出
 const logPrint = (data) => {
   let logStr = data.toString();
-  if (logStr.indexOf(constantCode.SVRCODECOMPLETED)) {
+  if (logStr.indexOf(constantCode.SVRCODECOMPLETED) === 0) {
     // 当接收到服务端代码编译完成通知时，重启 node 服务
     startNodeServer();
   } else {
@@ -65,6 +60,6 @@ process.on("exit", (code) => {
 });
 
 // 非正常退出
-process.on("SIGINT", (type,data) => {
+process.on("SIGINT", (type, data) => {
   killChildProcess();
 });

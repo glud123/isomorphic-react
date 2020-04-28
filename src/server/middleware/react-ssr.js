@@ -1,5 +1,5 @@
 import React from "react";
-import { StaticRouter, Route } from "react-router";
+import { StaticRouter } from "react-router";
 import { renderToString } from "react-dom/server";
 import AppRoute from "./../../client/route/index.js";
 import matchRoute from "./../../share/util/match-route.js";
