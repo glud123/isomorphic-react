@@ -8,7 +8,8 @@ import AppRoute from "./route";
   if (initialData) {
     initialData = JSON.parse(initialData);
     let targetRoute = matchRoute(document.location.pathname);
-    targetRoute.initialData = initialData;
+    targetRoute.initialData = initialData.fetchData;
+    targetRoute.page = initialData.page;
   }
   hydrate(
     <BrowserRouter>

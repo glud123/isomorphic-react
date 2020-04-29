@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import homeData from "./../mock/homeData.js";
 export default class Home extends Component {
   constructor(props) {
@@ -8,20 +9,34 @@ export default class Home extends Component {
       (props.staticContext && props.staticContext.initialData) ||
       props.initialData ||
       {};
+    let page =
+      (props.staticContext && props.staticContext.page) || props.page || {};
     this.state = {
-      pageTitles: "Home View",
+      tdk: page.tdk,
       listData: initialData.data,
     };
   }
-  static getInitialProps() {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          code: 0,
-          data: homeData,
-        });
-      }, 300);
-    });
+  static async getInitialProps() {
+    const fetchData = () => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            code: 0,
+            data: homeData,
+          });
+        }, 300);
+      });
+    };
+    return {
+      fetchData: await fetchData(),
+      page: {
+        tdk: {
+          title: "首页",
+          keywords: "前端技术江湖",
+          description: "前端技术江湖",
+        },
+      },
+    };
   }
   createList = () => {
     let { listData } = this.state;
@@ -40,25 +55,30 @@ export default class Home extends Component {
   };
   componentDidMount() {
     if (!this.state.listData) {
-      Home.getInitialProps().then((res) => {
-        console.log(res)
+      Home.getInitialProps().then(({ fetchData, page }) => {
         this.setState({
-          listData: res.data,
+          listData: fetchData.initialData.data,
+          tdk: page.tdk,
         });
       });
     }
   }
   render() {
-    let { pageTitles } = this.state;
+    let { tdk = {} } = this.state;
+    console.log(tdk);
     return (
       <div>
+        <Helmet>
+          <title>{tdk.title}</title>
+          <meta name="keywords" content={tdk.keywords} />
+          <meta name="description" content={tdk.description} />
+        </Helmet>
         <div>
           <Link to="/demo">Demo</Link>
           <Link to="/about" style={{ marginLeft: "10px" }}>
             About
           </Link>
         </div>
-        <div>{pageTitles}</div>
         <div>{this.createList()}</div>
       </div>
     );

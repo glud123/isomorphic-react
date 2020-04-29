@@ -8,7 +8,7 @@ export default function AppRoute(props) {
     <Layout>
       <Switch>
         {router.map((item, index) => {
-          let { path, exact, initialData } = item;
+          let { path, exact, initialData, page } = item;
           if (item.initialData) {
             return (
               <Route
@@ -17,6 +17,7 @@ export default function AppRoute(props) {
                 exact={exact}
                 render={(props) => {
                   props.initialData = initialData;
+                  props.page = page;
                   return <item.component {...props} />;
                 }}
               ></Route>
