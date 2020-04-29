@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import withStyles from "isomorphic-style-loader/withStyles";
 import homeData from "./../mock/homeData.js";
-export default class Home extends Component {
+import l from "./home.less";
+
+class Home extends Component {
   constructor(props) {
     super(props);
     let initialData =
@@ -65,15 +68,15 @@ export default class Home extends Component {
   }
   render() {
     let { tdk = {} } = this.state;
-    console.log(tdk);
+    // console.log(tdk, l._getContent())
     return (
-      <div>
+      <div className="page">
         <Helmet>
           <title>{tdk.title}</title>
           <meta name="keywords" content={tdk.keywords} />
           <meta name="description" content={tdk.description} />
         </Helmet>
-        <div>
+        <div className="container">
           <Link to="/demo">Demo</Link>
           <Link to="/about" style={{ marginLeft: "10px" }}>
             About
@@ -84,3 +87,5 @@ export default class Home extends Component {
     );
   }
 }
+
+export default withStyles(l)(Home);

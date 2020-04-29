@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require("webpack");
 const nodeExternals = require("webpack-node-externals");
 // 路径转换
 const resolvePath = (pathStr) => {
@@ -24,6 +25,25 @@ module.exports = {
         loader: "babel-loader",
         exclude: /node_modules/,
       },
+      {
+        test: /\.(le|c)ss$/,
+        use: [
+          "isomorphic-style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              importLoaders: 1,
+            },
+          },
+          "postcss-loader",
+          "less-loader",
+        ],
+      },
     ],
   },
+  plugins: [
+    new webpack.HashedModuleIdsPlugin({
+      hashDigestLength: 8,
+    }),
+  ],
 };
