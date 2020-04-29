@@ -30,7 +30,6 @@ export default async (ctx, next) => {
     </StaticRouter>
   );
   let { title, meta } = Helmet.renderStatic();
-  console.log(title, meta);
   ctx.state = {
     title: title,
     meta: meta,
