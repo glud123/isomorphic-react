@@ -1,5 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
+// css 提取插件
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // 路径转换
 const resolvePath = (pathStr) => {
   return path.resolve(__dirname, pathStr);
@@ -7,6 +9,7 @@ const resolvePath = (pathStr) => {
 
 module.exports = {
   mode: "development",
+  devtool: "source-map",
   entry: resolvePath("./../src/client/app.js"),
   output: {
     filename: "index.js", // 打包之后输出文件名
@@ -22,7 +25,7 @@ module.exports = {
       {
         test: /\.(le|c)ss$/,
         use: [
-          "isomorphic-style-loader",
+          MiniCssExtractPlugin.loader,
           {
             loader: "css-loader",
             options: {
@@ -50,5 +53,6 @@ module.exports = {
     new webpack.HashedModuleIdsPlugin({
       hashDigestLength: 8,
     }),
+    new MiniCssExtractPlugin(),
   ],
 };
