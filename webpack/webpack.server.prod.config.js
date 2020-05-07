@@ -11,6 +11,7 @@ const resolvePath = (pathStr) => {
 
 process.env.BABEL_ENV = "node"; // 设置 babel 运行变量
 const isProd = process.env.NODE_ENV === "production";
+
 module.exports = {
   target: "node",
   mode: "production",

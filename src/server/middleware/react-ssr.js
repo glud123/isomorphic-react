@@ -27,7 +27,7 @@ export default async (ctx, next) => {
   }
   const htmlDom = renderToString(
     <StaticRouter location={ctx.path} context={context}>
-        <AppRoute />
+      <AppRoute />
     </StaticRouter>
   );
   let { title, meta } = Helmet.renderStatic();
@@ -46,13 +46,15 @@ export default async (ctx, next) => {
   //   <head>
   //     <meta charset="UTF-8" />
   //     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  //     <title>Home</title>
+  //     ${title}
+  //     ${meta}
+  //     ${assetsMap.css.join("")}
   //   </head>
   //   <body>
-  //     <div>home</div>
   //     <div id="app">${htmlDom}</div>
+  //     <textarea id="ssrTextInitData" style="display:none">${JSON.stringify(fetchResult)}</textarea>
   //   </body>
-  //   <script type="text/javascript" src="index.js"></script>
+  //   ${assetsMap.js.join("")}
   // </html>`;
   await next();
 };

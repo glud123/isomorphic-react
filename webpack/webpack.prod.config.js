@@ -71,7 +71,6 @@ module.exports = {
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       },
-      __IS_PROD__: true,
     }),
   ],
   optimization: {
