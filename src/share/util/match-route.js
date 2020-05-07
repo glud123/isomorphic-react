@@ -1,5 +1,5 @@
 import { matchPath } from "react-router";
-import routerList from "./../../share/route-config";
+import routerList from "./../route-config.js";
 
 /**
  * 根据 path 匹配路由

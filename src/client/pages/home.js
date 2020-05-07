@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import withStyles from "isomorphic-style-loader/withStyles";
 import homeData from "./../mock/homeData.js";
-import l from "./home.less";
+import "./home.less";
 
 class Home extends Component {
   constructor(props) {
@@ -60,7 +59,7 @@ class Home extends Component {
     if (!this.state.listData) {
       Home.getInitialProps().then(({ fetchData, page }) => {
         this.setState({
-          listData: fetchData.initialData.data,
+          listData: fetchData.data,
           tdk: page.tdk,
         });
       });
@@ -88,4 +87,4 @@ class Home extends Component {
   }
 }
 
-export default withStyles(l)(Home);
+export default Home;
