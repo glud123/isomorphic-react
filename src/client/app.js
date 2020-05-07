@@ -6,21 +6,15 @@ import matchRoute from "./../share/util/match-route.js";
 import AppRoute from "./route";
 (() => {
   let initialData = document.getElementById("ssrTextInitData").value;
-  if (initialData) {
+  if (initialData && initialData != "null") {
     initialData = JSON.parse(initialData);
     let targetRoute = matchRoute(document.location.pathname);
     targetRoute.initialData = initialData.fetchData;
     targetRoute.page = initialData.page;
   }
-  const insertCss = (...styles) => {
-    const removeCss = styles.map((style) => style._insertCss());
-    return () => removeCss.forEach((dispose) => dispose());
-  };
   hydrate(
     <BrowserRouter>
-      <StyleContext.Provider value={{ insertCss }}>
-        <AppRoute />
-      </StyleContext.Provider>
+      <AppRoute />
     </BrowserRouter>,
     document.getElementById("app")
   );
