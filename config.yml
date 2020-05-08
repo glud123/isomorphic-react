@@ -1,0 +1,8 @@
+# 功能基础配置文件
+# yml 文件语法请参考 http://www.ruanyifeng.com/blog/2016/07/yaml.html
+
+
+# webpack dev server 服务的运行端口
+wdsPort: 3004
+# node server 的监听端口
+nodeServerPort: 3003

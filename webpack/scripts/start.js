@@ -1,4 +1,4 @@
-const { spawn } = require("child_process"); // 创建子进程
+const spawn = require("cross-spawn");
 const constantCode = require("./constant.js");
 const { nodeServerPort } = require("../../src/share/pro-config.js");
 const { logger } = require("./util.js");
@@ -6,9 +6,7 @@ const { logger } = require("./util.js");
 logger("node server starting ...");
 
 // 前端代码 构建服务进程
-const feCodeWatchProcess = spawn("npm", ["run", "fe:watch"], {
-  // stdio: "inherit",
-});
+const feCodeWatchProcess = spawn("npm", ["run", "wds:watch"]);
 
 // 服务端代码 构建服务进程
 const svrCodeWatchProcess = spawn("npm", ["run", "svr:watch"]);

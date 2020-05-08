@@ -6,7 +6,7 @@ module.exports = (port, appPath) => {
     // macOS linux
     const lsofWatcher = spawn("lsof", ["-i", `:${port}`]);
     lsofWatcher.on("close", (code) => {
-      if (typeof(code) === "number") {
+      if (typeof code === "number" && appPath) {
         require(appPath);
       }
     });
@@ -18,7 +18,7 @@ module.exports = (port, appPath) => {
         if (address && address != "PID") {
           const killWatcher = spawn("kill", ["-9", address]);
           killWatcher.on("close", (code) => {
-            if (typeof(code) === "number") {
+            if (typeof code === "number" && appPath) {
               require(appPath);
             }
           });
