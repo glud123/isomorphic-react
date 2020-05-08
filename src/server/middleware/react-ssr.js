@@ -7,6 +7,10 @@ import matchRoute from "./../../share/util/match-route.js";
 const getAssets = require("./../common/assets.js");
 const assetsMap = getAssets();
 export default async (ctx, next) => {
+  if(ctx.path.indexOf("hot-update.json") > -1){
+    await next();
+    return;
+  }
   let targetRoute = matchRoute(ctx.path);
   let fetchDataFunc = targetRoute.component.getInitialProps;
   let fetchResult = null;
