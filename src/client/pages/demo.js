@@ -5,7 +5,7 @@ export default class Demo extends React.Component {
     super(props);
   }
   handelClick = () => {
-    alert("SSR点击!!!");
+    alert("SSR点击测试");
   };
   render() {
     return (
@@ -15,7 +15,7 @@ export default class Demo extends React.Component {
           <Link to="/about" style={{marginLeft:"10px"}}>About</Link>
         </div>
         <div>Demo</div>
-        <h1 onClick={this.handelClick}>点击</h1>
+        <h1 onClick={this.handelClick}>点击我吧</h1>
       </div>
     );
   }

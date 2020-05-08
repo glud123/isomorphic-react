@@ -13,6 +13,7 @@ class About extends Component {
           Demo
         </Link>
         <div className="page">About</div>
+        <div>内容</div>
       </div>
     );
   }
