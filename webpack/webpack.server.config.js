@@ -28,13 +28,7 @@ module.exports = {
       {
         test: /\.(le|c)ss$/,
         use: [
-          "isomorphic-style-loader",
-          {
-            loader: "css-loader",
-            options: {
-              importLoaders: 1,
-            },
-          },
+          "css-loader",
           "postcss-loader",
           "less-loader",
         ],
@@ -42,9 +36,6 @@ module.exports = {
     ],
   },
   plugins: [
-    new webpack.HashedModuleIdsPlugin({
-      hashDigestLength: 8,
-    }),
     new webpack.DefinePlugin({
       "process.env": { NODE_ENV: `"${process.env.NODE_ENV}"` },
       __IS_PROD__: isProd,
