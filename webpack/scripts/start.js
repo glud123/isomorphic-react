@@ -1,6 +1,6 @@
 const spawn = require("cross-spawn");
 const constantCode = require("./constant.js");
-const { nodeServerPort } = require("../../src/share/pro-config.js");
+const { nodeServerPort } = require("../../src/common/pro-config.js");
 const { logger } = require("./util.js");
 
 logger("node server starting ...");

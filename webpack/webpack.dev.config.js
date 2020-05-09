@@ -14,7 +14,7 @@ module.exports = {
   output: {
     filename: "[name].js", // 打包之后输出文件名
     path: resolvePath("./../dist/static"),
-    publicPath: "/",
+    publicPath: "//localhost:3004/",
   },
   module: {
     rules: [

@@ -1,5 +1,5 @@
 // 开发环境 node 服务入口
-const proConfig = require("./../../src/share/pro-config.js");
+const proConfig = require("./../../src/common/pro-config.js");
 const freePort = require("./free-port.js");
 
 // // node server port
