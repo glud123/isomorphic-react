@@ -1,21 +1,15 @@
 import React from "react";
 import { hydrate } from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import StyleContext from "isomorphic-style-loader/StyleContext";
-import matchRoute from "./../share/util/match-route.js";
 import AppRoute from "./route";
-(() => {
-  let initialData = document.getElementById("ssrTextInitData").value;
-  if (initialData && initialData != "null") {
-    initialData = JSON.parse(initialData);
-    let targetRoute = matchRoute(document.location.pathname);
-    targetRoute.initialData = initialData.fetchData;
-    targetRoute.page = initialData.page;
-  }
+import compLoader from "./util/compLoader";
+import matchRoute from "../common/route/matchRoute";
+let page = matchRoute(document.location.pathname).page;
+compLoader(page).then((mod) => {
   hydrate(
     <BrowserRouter>
-      <AppRoute />
+      <AppRoute mod={mod.default} />
     </BrowserRouter>,
     document.getElementById("app")
   );
-})();
+});

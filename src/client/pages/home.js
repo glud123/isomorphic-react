@@ -7,14 +7,10 @@ import "./home.less";
 class Home extends Component {
   constructor(props) {
     super(props);
-    let initialData =
-      (props.staticContext && props.staticContext.initialData) ||
-      props.initialData ||
-      {};
-    let page =
-      (props.staticContext && props.staticContext.page) || props.page || {};
+    let initialData = props.initialData || {};
+    let pageInfo = props.pageInfo || {};
     this.state = {
-      tdk: page.tdk,
+      tdk: pageInfo.tdk,
       listData: initialData.data,
     };
   }
@@ -31,7 +27,7 @@ class Home extends Component {
     };
     return {
       fetchData: await fetchData(),
-      page: {
+      pageInfo: {
         tdk: {
           title: "首页",
           keywords: "前端技术江湖",
@@ -57,17 +53,16 @@ class Home extends Component {
   };
   componentDidMount() {
     if (!this.state.listData) {
-      Home.getInitialProps().then(({ fetchData, page }) => {
+      Home.getInitialProps().then(({ fetchData, pageInfo }) => {
         this.setState({
           listData: fetchData.data,
-          tdk: page.tdk,
+          tdk: pageInfo.tdk,
         });
       });
     }
   }
   render() {
     let { tdk = {} } = this.state;
-    // console.log(tdk, l._getContent())
     return (
       <div className="page">
         <Helmet>

@@ -1,31 +1,52 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
-import Layout from "../layout.js";
-import router from "../../share/route-config.js";
+import { Route } from "react-router-dom";
+import AppRouteContainer from "../../common/route";
+import AsyncLoader from "./asyncLoader";
 
-export default function AppRoute(props) {
+const AppRoute = ({ mod }) => {
+  let initialData = document.getElementById("ssrTextInitData").value;
+  if (initialData && initialData != "null") {
+    initialData = JSON.parse(initialData);
+  } else {
+    initialData = {
+      fetchData: null,
+      pageInfo: null,
+    };
+  }
+  // 首次加载标识
+  let init = true;
   return (
-    <Layout>
-      <Switch>
-        {router.map((item, index) => {
-          let { path, exact, initialData, page } = item;
-          if (item.initialData) {
-            return (
-              <Route
-                key={path}
-                path={path}
-                exact={exact}
-                render={(props) => {
-                  props.initialData = initialData;
-                  props.page = page;
-                  return <item.component {...props} />;
-                }}
-              ></Route>
-            );
-          }
-          return <Route key={path} {...item}></Route>;
-        })}
-      </Switch>
-    </Layout>
+    <AppRouteContainer>
+      {(route) => {
+        let { path, exact, page } = route;
+        return (
+          <Route
+            key={path}
+            path={path}
+            exact={exact}
+            render={(props) => {
+              if (init) {
+                init = false;
+              } else {
+                mod = null;
+              }
+              return (
+                <AsyncLoader page={page} mod={mod}>
+                  {(Comp) => (
+                    <Comp
+                      {...props}
+                      initialData={initialData.fetchData}
+                      pageInfo={initialData.pageInfo}
+                    />
+                  )}
+                </AsyncLoader>
+              );
+            }}
+          ></Route>
+        );
+      }}
+    </AppRouteContainer>
   );
-}
+};
+
+export default AppRoute;
