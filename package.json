@@ -15,8 +15,7 @@
   },
   "keywords": [
     "react",
-    "koa",
-    "mongodb"
+    "koa"
   ],
   "author": "glud",
   "license": "ISC",
@@ -33,7 +32,6 @@
     "koa-static": "^5.0.0",
     "koa-views": "^6.2.1",
     "less-loader": "^6.0.0",
-    "mongodb": "^3.5.6",
     "postcss-loader": "^3.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
