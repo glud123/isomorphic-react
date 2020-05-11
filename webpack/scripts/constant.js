@@ -1,4 +1,0 @@
-module.exports = {
-  SVRCODECOMPLETED: "SVRCODECOMPLETED", //表示服务端代码编译完成的标志
-  FECODECOMPLETED: "FECODECOMPLETED" //表示前端代码编译完成的标志
-};

@@ -4,14 +4,12 @@
   "description": "react-koa-mongodb",
   "main": "index.js",
   "scripts": {
-    "dev": "node webpack/scripts/start.js",
-    "fe:watch": "webpack --config ./webpack/webpack.dev.config.js --watch",
-    "wds:watch": "cross-env BABEL_ENV=development node ./webpack/scripts/wds-start.js",
-    "svr:watch": "node ./webpack/scripts/svr-watch.js",
-    "build": "cross-env NODEV_ENV=production npm run client:build && npm run server:build",
-    "client:build": "cross-env NODE_ENV=production webpack --config  ./webpack/webpack.prod.config.js",
-    "server:build": "cross-env NODE_ENV=production webpack --config  ./webpack/webpack.server.prod.config.js",
-    "dev-test": "node ./webpack/scripts/wds-start.js"
+    "dev": "node ./scripts/dev.js",
+    "client:watch": "cross-env NODE_ENV=development node ./scripts/webpackConfig/webpack.client.config.js",
+    "server:watch": "cross-env NODE_ENV=development node ./scripts/webpackConfig/webpack.server.config.js",
+    "build": "npm run client:build && npm run server:build",
+    "client:build": "cross-env NODE_ENV=production webpack --config ./scripts/webpackConfig/webpack.client.config.js",
+    "server:build": "cross-env NODE_ENV=production webpack --config ./scripts/webpackConfig/webpack.server.config.js"
   },
   "keywords": [
     "react",
@@ -63,6 +61,7 @@
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3",
     "webpack-manifest-plugin": "^2.2.0",
+    "webpack-merge": "^4.2.2",
     "webpack-node-externals": "^1.7.2",
     "yamljs": "^0.3.0"
   }
