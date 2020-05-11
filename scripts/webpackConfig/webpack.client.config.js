@@ -168,8 +168,6 @@ if (NODE_ENV === "production") {
     if (err) {
       return console.log(err);
     }
-    console.log(
-      chalk.cyan("🚀 Starting the development node server,please wait....\n")
-    );
+    logger("🚀 Starting the development node server,please wait....\n");
   });
 }
