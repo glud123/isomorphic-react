@@ -43,12 +43,13 @@ module.exports = {
         ],
       },
       {
-        test: /.(png|jpg|gif)$/,
+        test: /\.(png|jpg|gif|svg)?$/,
         use: {
-          loader: "file-loader",
+          loader: "url-loader",
           options: {
             emitFile: false,
-            name: isProd ? "img/[name].[hash:8].[ext]" : "img/[name].[ext]",
+            name: "images/[name].[hash:8].[ext]",
+            limit: 10000,
             publicPath: "/",
           },
         },
@@ -67,6 +68,7 @@ module.exports = {
     alias: {
       //定义dist 目录别名，方便导入模块
       "@dist": path.resolve(__dirname, "../dist"),
+      "@assets": path.resolve(__dirname, "../src/client/assets/"),
     },
   },
 };

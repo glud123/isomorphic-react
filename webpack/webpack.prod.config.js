@@ -49,9 +49,10 @@ module.exports = {
         test: /\.(png|jpg|gif|svg)?$/,
         use: [
           {
-            loader: "file-loader",
+            loader: "url-loader",
             options: {
               name: "images/[name].[hash:8].[ext]", // 配置图片的输出路径和名称
+              limit: 10000,
               publicPath: "/",
             },
           },
@@ -68,8 +69,8 @@ module.exports = {
       filename: "@dist/server/assets/manifest.json",
     }),
     new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production')
+      "process.env": {
+        NODE_ENV: JSON.stringify("production"),
       },
     }),
   ],
@@ -101,6 +102,12 @@ module.exports = {
           name: "libs", // 打包后的文件名
         },
       },
+    },
+  },
+  resolve: {
+    alias: {
+      //定义dist 目录别名，方便导入模块
+      "@assets": path.resolve(__dirname, "../src/client/assets/"),
     },
   },
 };
