@@ -5,6 +5,9 @@ import { Helmet } from "react-helmet";
 import AppRoute from "../route";
 import matchRoute from "../../common/route/matchRoute";
 const assetsMap = require("../util/handleAssets.js")();
+/**
+ * react 同构中间件
+ */
 export default async (ctx, next) => {
   if (ctx.path.indexOf("hot-update.json") > -1) {
     await next();

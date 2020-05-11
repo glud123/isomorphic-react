@@ -2,7 +2,10 @@ import React from "react";
 import { Route } from "react-router-dom";
 import AppRouteContainer from "../../common/route";
 import AsyncLoader from "./asyncLoader";
-
+/**
+ * 客户端路由容器组件
+ * @param {*} 客户端页面初始组件
+ */
 const AppRoute = ({ mod }) => {
   let initialData = document.getElementById("ssrTextInitData").value;
   if (initialData && initialData != "null") {

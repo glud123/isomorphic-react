@@ -1,3 +1,6 @@
+/**
+ * 静态资源处理
+ */
 module.exports = () => {
   let jsFiles = ["libs.js", "main.js"];
   let cssFiles = ["main.css"];
@@ -32,9 +35,6 @@ module.exports = () => {
     assets.js.push(
       `<script type="text/javascript" src="${devHost}/main.js"></script>`
     );
-    // assets.css.push(
-    //   `<link rel="stylesheet" type="text/css"  href="${devHost}/main.css" />`
-    // );
   }
   return assets;
 };
