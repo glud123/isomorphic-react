@@ -2,7 +2,7 @@
 # yml 文件语法请参考 http://www.ruanyifeng.com/blog/2016/07/yaml.html
 
 
-# webpack dev server 服务的运行端口
-wdsPort: 3004
-# node server 的监听端口
-nodeServerPort: 3003
+# 客户端端口 （即 webpack-dev-server 运行端口）
+clientSidePort: 3004
+# 服务端端口 （即 node server 运行端口）
+serverSidePort: 3003

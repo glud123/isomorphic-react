@@ -12,7 +12,6 @@ module.exports = () => {
   if (__IS_PROD__) {
     // 生产环境
     const assetsMap = require("@dist/static/manifest.json");
-    console.log(assetsMap);
     jsFiles.forEach((item) => {
       if (assetsMap[item]) {
         assets.js.push(
@@ -30,10 +29,7 @@ module.exports = () => {
   } else {
     // 开发环境
     assets.js.push(
-      `<script type="text/javascript" src="${devHost}/libs.js"></script>`
-    );
-    assets.js.push(
-      `<script type="text/javascript" src="${devHost}/main.js"></script>`
+      `<script type="text/javascript" src="${devHost}/js/main.js"></script>`
     );
   }
   return assets;
