@@ -27,10 +27,20 @@ module.exports = {
       },
       {
         test: /\.(le|c)ss$/,
+        use: ["css-loader", "postcss-loader", "less-loader"],
+      },
+      {
+        test: /\.(png|jpg|gif|svg)?$/,
         use: [
-          "css-loader",
-          "postcss-loader",
-          "less-loader",
+          {
+            loader: "url-loader",
+            options: {
+              emitFile: false,
+              name: "images/[name].[ext]", // 配置图片的输出路径和名称
+              limit: 10000,
+              publicPath: "//localhost:3004",
+            },
+          },
         ],
       },
     ],
@@ -42,4 +52,10 @@ module.exports = {
       __SERVER__: true,
     }),
   ],
+  resolve: {
+    alias: {
+      //定义dist 目录别名，方便导入模块
+      "@assets": path.resolve(__dirname, "../src/client/assets/"),
+    },
+  },
 };

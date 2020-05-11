@@ -44,9 +44,10 @@ module.exports = {
         test: /\.(png|jpg|gif|svg)?$/,
         use: [
           {
-            loader: "file-loader",
+            loader: "url-loader",
             options: {
               name: "images/[name].[ext]", // 配置图片的输出路径和名称
+              limit: 10000,
             },
           },
         ],
@@ -77,6 +78,8 @@ module.exports = {
   },
   resolve: {
     alias: {
+      //定义dist 目录别名，方便导入模块
+      "@assets": path.resolve(__dirname, "../src/client/assets/"),
       "react-dom": "@hot-loader/react-dom",
     },
   },
