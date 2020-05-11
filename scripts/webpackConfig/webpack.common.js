@@ -1,9 +1,10 @@
+const webpack = require("webpack");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { resolvePath } = require("../util");
 /**
- * webpack 默认配置文件 （优先默认开发模式）
- *
+ * webpack 默认配置文件
  */
 module.exports = {
-  mode: "development",
   module: {
     rules: [
       {
@@ -20,12 +21,30 @@ module.exports = {
           "less-loader",
         ],
       },
+      {
+        test: /\.(png|jpg|gif|svg)?$/,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              name: "images/[name].[ext]", // 配置图片的输出路径和名称
+              limit: 10000,
+            },
+          },
+        ],
+      },
     ],
   },
   plugins: [
     new webpack.DefinePlugin({
-      __IS_PROD__: false,
-      __SERVER__: true,
+      __IS_PROD__: process.env.NODE_ENV === "production",
     }),
   ],
+  resolve: {
+    alias: {
+      //定义dist 目录别名，方便导入模块
+      "@assets": resolvePath("../src/client/assets/"),
+      "react-dom": "@hot-loader/react-dom",
+    },
+  },
 };

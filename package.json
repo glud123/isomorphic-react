@@ -4,7 +4,7 @@
   "description": "react-koa-mongodb",
   "main": "index.js",
   "scripts": {
-    "dev": "node ./scripts/dev.js",
+    "dev": "node ./scripts/start.js",
     "client:watch": "cross-env NODE_ENV=development node ./scripts/webpackConfig/webpack.client.config.js",
     "server:watch": "cross-env NODE_ENV=development node ./scripts/webpackConfig/webpack.server.config.js",
     "build": "npm run client:build && npm run server:build",
