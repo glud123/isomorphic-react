@@ -46,10 +46,7 @@ let webpackCommonConfig = {
       },
     ],
   },
-  plugins: [
-    new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin(),
-  ],
+  plugins: [new CleanWebpackPlugin(), new MiniCssExtractPlugin()],
   resolve: {
     alias: {
       /// 定义别名，方便导入
@@ -111,7 +108,7 @@ if (NODE_ENV === "production") {
   // 开发环境
   let compiler = webpack(webpackConfig);
   compiler.watch(
-    { aggregateTimeout: 300, ignored: /node_modules/, poll: 2000 },
+    { aggregateTimeout: 300, ignored: /node_modules/ },
     (err, stats) => {
       let statsJson = stats.toJson("minimal");
       if (statsJson.errors) {

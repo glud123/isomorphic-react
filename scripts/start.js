@@ -10,7 +10,7 @@ logger("🍺 Node server starting...");
 
 // 前端代码 构建服务进程
 const clientCodeWatchProcess = spawn("npm", ["run", "client:watch"], {
-  stdio: "inherit",
+  // stdio: "inherit",
 });
 
 // 服务端代码 构建服务进程

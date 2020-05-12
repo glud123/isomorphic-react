@@ -72,11 +72,8 @@ let devServerConfig = {
   watchContentBase: true,
   watchOptions: {
     ignored: /node_modules/,
-    //当第一个文件更改，会在重新构建前增加延迟。
-    //这个选项允许 webpack 将这段时间内进行的任何其他更改都聚合到一次重新构建里。以毫秒为单位：
-    aggregateTimeout: 500,
-    //指定毫秒为单位进行轮询
-    poll: 500,
+    //这个选项允许 webpack 将这段时间内进行的任何其他更改都聚合到一次重新构建里。当第一个文件更改，会在重新构建前增加延迟。以毫秒为单位：
+    aggregateTimeout: 300,
   },
   headers: {
     "Access-Control-Allow-Origin": "*",
@@ -153,6 +150,7 @@ if (NODE_ENV === "production") {
   const createWebpackDevServer = () => {
     let compiler = webpack(devConfig);
     compiler.hooks.done.tap("done", (data) => {
+      logger("🍎 Client code is done!");
       if (!browserIsOpen) {
         browserIsOpen = true;
         // 开发者访问的页面应为 node 服务，而不是前端服务
