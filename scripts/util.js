@@ -19,29 +19,26 @@ async function openBrowser(url) {
 }
 // 端口释放
 const freePort = (port, appPath) => {
-  const lsofWatcher = spawn("lsof", ["-i", `:${port}`]);
-  lsofWatcher.on("close", (code) => {
-    if (typeof code === "number" && appPath) {
-      require(appPath);
-    }
-  });
-  lsofWatcher.stdout.on("data", (data) => {
-    let dataStr = data.toString();
+  let lsofOutStr = spawn.sync("lsof", ["-i", `:${port}`]).stdout.toString();
+  if (lsofOutStr) {
     logger(`💣 FreePort ${port}`, "red");
-    dataStr.split("\n").map((line) => {
+    lsofOutStr.split("\n").map((line) => {
       let p = line.trim().split(/\s+/);
       let address = p[1];
       if (address && address != "PID") {
-        const killWatcher = spawn("kill", ["-9", address]);
-        killWatcher.on("close", (code) => {
-          logger(`💣 FreePort ${port}`, "red");
-          if (typeof code === "number" && appPath) {
-            require(appPath);
-          }
-        });
+        let killerOutStr = spawn
+          .sync("kill", ["-9", address])
+          .stdout.toString();
+        if (!killerOutStr && appPath) {
+          require(appPath);
+        }
       }
     });
-  });
+  } else {
+    if (appPath) {
+      require(appPath);
+    }
+  }
 };
 
 module.exports = {
