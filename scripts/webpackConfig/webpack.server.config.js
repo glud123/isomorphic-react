@@ -126,6 +126,6 @@ if (NODE_ENV === "production") {
     }
   );
   compiler.hooks.done.tap("done", (data) => {
-    logger("🍻 Server code is done!");
+    logger("\n🍍 Server code is done!");
   });
 }

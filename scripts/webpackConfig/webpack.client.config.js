@@ -161,14 +161,13 @@ if (NODE_ENV === "production") {
    * 代码构建完成自动打开浏览器并打开 node 服务端口地址
    */
   let devConfig = smart(commonConfig, webpackCommonConfig, webpackDevConfig);
-  console.log(devConfig.module.rules);
   // 浏览器打开标识
   let browserIsOpen = false;
   // 创建前端开发服务
   const createWebpackDevServer = () => {
     let compiler = webpack(devConfig);
     compiler.hooks.done.tap("done", (data) => {
-      logger("🍎 Client code is done!");
+      logger("\n🍎 Client code is done!");
       if (!browserIsOpen) {
         browserIsOpen = true;
         // 开发者访问的页面应为 node 服务，而不是前端服务
@@ -184,6 +183,5 @@ if (NODE_ENV === "production") {
     if (err) {
       return console.log(err);
     }
-    logger("🚀 Starting the development node server,please wait....\n");
   });
 }
