@@ -52,6 +52,23 @@ let webpackDevConfig = {
   output: {
     publicPath: `//localhost:${clientSidePort}/`,
   },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: [
+          "babel-loader",
+          {
+            loader: "react-hot-export-loader", // 自动插入 react-hot-loader 实现对源码不需要修改就能实现 react 热更新
+            options: {
+              plugins: ["classProperties"],
+            },
+          },
+        ],
+      },
+    ],
+  },
   plugins: [
     new MiniCssExtractPlugin({
       filename: "[name].css", //设置名称
@@ -144,6 +161,7 @@ if (NODE_ENV === "production") {
    * 代码构建完成自动打开浏览器并打开 node 服务端口地址
    */
   let devConfig = smart(commonConfig, webpackCommonConfig, webpackDevConfig);
+  console.log(devConfig.module.rules);
   // 浏览器打开标识
   let browserIsOpen = false;
   // 创建前端开发服务
