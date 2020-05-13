@@ -76,6 +76,7 @@ class Home extends Component {
             About
           </Link>
         </div>
+        <div>数据列表</div>
         <div>{this.createList()}</div>
       </div>
     );

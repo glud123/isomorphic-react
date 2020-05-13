@@ -3,13 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <%-title %>
-    <%-meta %>
-    <%-styles %>
+    <%-title %> <%-meta %> <%-styles %>
+    <script type="text/javascript">
+      window.__context__ = {
+        initialData: <%-initialData %>,
+      };
+    </script>
   </head>
   <body>
     <div id="app"><%-htmlDom %></div>
-    <textarea id="ssrTextInitData" style="display:none"><%=initialData %></textarea>
   </body>
   <%-scripts %>
 </html>

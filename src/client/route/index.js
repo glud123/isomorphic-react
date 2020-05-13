@@ -7,10 +7,8 @@ import AsyncLoader from "./asyncLoader";
  * @param {*} 客户端页面初始组件
  */
 const AppRoute = ({ mod }) => {
-  let initialData = document.getElementById("ssrTextInitData").value;
-  if (initialData && initialData != "null") {
-    initialData = JSON.parse(initialData);
-  } else {
+  let initialData = window.__context__.initialData;
+  if (!initialData) {
     initialData = {
       fetchData: null,
       pageInfo: null,

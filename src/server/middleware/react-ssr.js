@@ -2,8 +2,10 @@ import React from "react";
 import { StaticRouter } from "react-router";
 import { renderToString } from "react-dom/server";
 import { Helmet } from "react-helmet";
+import serialize from "serialize-javascript";
 import AppRoute from "../route";
 import matchRoute from "../../common/route/matchRoute";
+
 const assetsMap = require("../util/handleAssets.js")();
 /**
  * react 同构中间件
@@ -48,7 +50,11 @@ export default async (ctx, next) => {
     styles: assetsMap.css.join(""),
     scripts: assetsMap.js.join(""),
     htmlDom: htmlDom,
-    initialData: JSON.stringify(fetchResult),
+    initialData: serialize(fetchResult, {
+      spaces: 2,
+      isJson: true,
+      ignoreFuction: true,
+    }),
   };
   let html = await ctx.render("index.html");
   ctx.body = html;
