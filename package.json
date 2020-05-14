@@ -1,7 +1,7 @@
 {
-  "name": "SSR4React",
+  "name": "ssr4react",
   "version": "1.0.0",
-  "description": "SSR4React",
+  "description": "ssr4react",
   "main": "index.js",
   "scripts": {
     "dev": "node ./scripts/start.js",
