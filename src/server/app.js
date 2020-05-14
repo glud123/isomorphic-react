@@ -2,7 +2,7 @@ const Koa = require("koa");
 const favicon = require("koa-favicon");
 const views = require("koa-views");
 const koaStatic = require("koa-static");
-const react_ssr = require("./middleware/react-ssr.js");
+const react_ssr = require("./middleware/reactSSR");
 
 const app = new Koa();
 

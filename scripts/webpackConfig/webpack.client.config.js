@@ -37,8 +37,6 @@ let webpackCommonConfig = {
   },
   resolve: {
     alias: {
-      // 定义别名，方便导入
-      "@assets": resolvePath("src/client/assets/"),
       // 使用 @hot-loader/react-dom 库代替 react-dom （为满足 React 热重载）
       "react-dom": "@hot-loader/react-dom",
     },

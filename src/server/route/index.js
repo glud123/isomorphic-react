@@ -1,6 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import AppRouteContainer from "../../common/route";
+import AppRouteContainer from "@common/route";
 /**
  * server 端路由容器组件
  * @param {Object} initialData 页面初始数据

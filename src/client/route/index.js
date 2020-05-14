@@ -1,6 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import AppRouteContainer from "../../common/route";
+import AppRouteContainer from "@common/route";
 import AsyncLoader from "./asyncLoader";
 /**
  * 客户端路由容器组件

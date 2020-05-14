@@ -46,13 +46,6 @@ let webpackCommonConfig = {
     ],
   },
   plugins: [new CleanWebpackPlugin(), new MiniCssExtractPlugin()],
-  resolve: {
-    alias: {
-      /// 定义别名，方便导入
-      "@assets": resolvePath("src/client/assets/"),
-      "@dist": resolvePath("dist"),
-    },
-  },
 };
 
 // webpack 开发环境配置信息
