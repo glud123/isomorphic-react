@@ -3,9 +3,11 @@ const favicon = require("koa-favicon");
 const views = require("koa-views");
 const koaStatic = require("koa-static");
 const react_ssr = require("./middleware/react-ssr.js");
-const { nodeServerPort } = require("./../common/pro-config.js");
 
 const app = new Koa();
+
+// 获取服务端口
+const nodeServerPort = process.argv[2] || 8080;
 
 // favicon
 app.use(favicon("./favicon.ico"));
@@ -44,5 +46,5 @@ app.use(async (ctx, next) => {
 app.use(react_ssr.default);
 
 app.listen(nodeServerPort, () => {
-  console.log(`server start on http://localhost:${nodeServerPort}`);
+  console.log(`\n server start on http://localhost:${nodeServerPort}`);
 });

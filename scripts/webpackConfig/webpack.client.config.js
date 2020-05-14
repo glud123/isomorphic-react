@@ -15,7 +15,6 @@ const YAML = require("yamljs");
 const commonConfig = require("./webpack.common");
 const { resolvePath, freePort, openBrowser, logger } = require("../util");
 
-logger(`🍎 Client ${process.env.NODE_ENV}`);
 const { NODE_ENV } = process.env;
 
 const { clientSidePort, serverSidePort } = YAML.load("config.yml");
@@ -167,17 +166,17 @@ if (NODE_ENV === "production") {
   const createWebpackDevServer = () => {
     let compiler = webpack(devConfig);
     compiler.hooks.done.tap("done", (data) => {
-      logger("\n🍎 Client code is done!");
+      logger("\n🔥 client code is done!", "green");
       if (!browserIsOpen) {
         browserIsOpen = true;
         // 开发者访问的页面应为 node 服务，而不是前端服务
         openBrowser(`http://localhost:${serverSidePort}`);
       }
     });
+    // 释放 webpack-dev-server 服务端口
+    freePort(clientSidePort);
     return new webpackDevServer(compiler, devServerConfig);
   };
-  // 释放 webpack-dev-server 服务端口
-  freePort(clientSidePort);
   // 运行前端开发服务
   createWebpackDevServer().listen(clientSidePort, (err) => {
     if (err) {

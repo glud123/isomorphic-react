@@ -6,15 +6,13 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // webpack 清理构建目录插件
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const commonConfig = require("./webpack.common");
-const { resolvePath, freePort, logger } = require("../util");
-
-logger(`🍍 Server ${process.env.NODE_ENV}`, "green");
+const { resolvePath } = require("../util");
 
 const { NODE_ENV } = process.env;
 
 process.env.BABEL_ENV = "node"; // 设置 babel 运行变量
 
-const { clientSidePort, serverSidePort } = YAML.load("config.yml");
+const { clientSidePort } = YAML.load("config.yml");
 /**
  * webpack 基础配置
  * 包括:
@@ -25,6 +23,7 @@ const { clientSidePort, serverSidePort } = YAML.load("config.yml");
 
 // server code webpack common config
 let webpackCommonConfig = {
+  target: "node",
   entry: resolvePath("src/server/app.js"),
   output: {
     filename: "app.js",
@@ -121,11 +120,10 @@ if (NODE_ENV === "production") {
           console.log(warStats);
         });
       }
-      // 服务端代码构建完成标识
-      console.log("___SEVERCODECOMPLETED___");
     }
   );
   compiler.hooks.done.tap("done", (data) => {
-    logger("\n🍍 Server code is done!");
+    // 服务端代码构建完成标识
+    process.send({ isCompleted: true, message: "\n🔥 server code is done!" });
   });
 }

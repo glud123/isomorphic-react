@@ -4,50 +4,68 @@
  */
 const spawn = require("cross-spawn");
 const YAML = require("yamljs");
+const Font = require("ascii-art-font");
 const { logger, freePort } = require("./util");
 const { serverSidePort } = YAML.load("config.yml");
-logger("🍺 Node server starting...");
 
-// 前端代码 构建服务进程
-const clientCodeWatchProcess = spawn("npm", ["run", "client:watch"], {
-  stdio: "inherit",
-});
-
-// 服务端代码 构建服务进程
-const serverCodeWatchProcess = spawn("npm", ["run", "server:watch"], {
-  // stdio: "inherit",
-});
+Font.create("PISCES", "Doom",function(err,str){
+  logger(str);
+})
 
 // node 服务进程
-let nodeServerProcess = null;
+let nodeServerCP = null;
 
 // 启动 node 服务
 const startNodeServer = () => {
   // 启动 node 服务前需要先释放掉占用的服务端的端口
   freePort(serverSidePort);
   // 启动构建好的 服务端代码
-  nodeServerProcess = spawn("node", ["dist/server/app.js"], {
+  nodeServerCP = spawn("node", ["dist/server/app.js", serverSidePort], {
+    cwd: process.cwd(),
+    env: process.env,
     stdio: "inherit",
+    detached: false,
   });
 };
 
-// 关闭子进程
-const killChildProcess = () => {
-  nodeServerProcess && nodeServerProcess.kill();
-  clientCodeWatchProcess && clientCodeWatchProcess.kill();
-  serverCodeWatchProcess && serverCodeWatchProcess.kill();
-};
+// 前端代码 构建服务进程
+const clientCodeWatchCP = spawn(
+  "node",
+  ["scripts/webpackConfig/webpack.client.config.js"],
+  {
+    cwd: process.cwd(),
+    env: process.env,
+    stdio: "inherit",
+    detached: false,
+  }
+);
 
-// 监听服务端代码构建完成时输出日志，启动 node 服务
-serverCodeWatchProcess.stdout.on("data", function (data) {
-  let str = data.toString();
-  // webpack 构建 server 代码是否完成标识
-  if (str.indexOf("___SEVERCODECOMPLETED___") > -1) {
+// 服务端代码 构建服务进程
+const serverCodeWatchCP = spawn(
+  "node",
+  ["scripts/webpackConfig/webpack.server.config.js"],
+  {
+    cwd: process.cwd(),
+    env: process.env,
+    stdio: ["inherit", "inherit", "inherit", "ipc"],
+    detached: false,
+  }
+);
+
+// 监听服务端代码构建是否完成，完成则重启 node server
+serverCodeWatchCP.on("message", function (data) {
+  if (data.isCompleted) {
+    logger(data.message, "green");
     startNodeServer();
-  } else {
-    logger(str);
   }
 });
+
+// 关闭子进程
+const killChildProcess = () => {
+  nodeServerCP && nodeServerCP.kill();
+  clientCodeWatchCP && clientCodeWatchCP.kill();
+  serverCodeWatchCP && serverCodeWatchCP.kill();
+};
 
 // 主进程关闭 -> 关闭子进程
 process.on("close", (code) => {
@@ -58,6 +76,7 @@ process.on("close", (code) => {
 // 主线程退出 -> 关闭子进程
 process.on("exit", (code) => {
   logger(`❌ main process exit ${code} !`);
+  killChildProcess();
 });
 
 // 非正常退出 -> 关闭子进程

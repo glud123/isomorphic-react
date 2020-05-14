@@ -21,7 +21,7 @@ async function openBrowser(url) {
 const freePort = (port, appPath) => {
   let lsofOutStr = spawn.sync("lsof", ["-i", `:${port}`]).stdout.toString();
   if (lsofOutStr) {
-    logger(`💣 FreePort ${port}`, "red");
+    logger(`\n🚫 free port ${port}`, "red");
     lsofOutStr.split("\n").map((line) => {
       let p = line.trim().split(/\s+/);
       let address = p[1];
