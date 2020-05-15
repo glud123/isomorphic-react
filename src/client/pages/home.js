@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import withStyles from "isomorphic-style-loader/withStyles";
 import homeData from "./../mock/homeData.js";
-import "./home.less";
+import homeLess from "./home.less";
 
 class Home extends Component {
   constructor(props) {
@@ -83,4 +84,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default withStyles(homeLess)(Home);

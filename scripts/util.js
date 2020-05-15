@@ -2,6 +2,10 @@ const chalk = require("chalk");
 const path = require("path");
 const open = require("open");
 const spawn = require("cross-spawn");
+const YAML = require("yamljs");
+
+// 获取 config.yml 配置信息
+const __config = YAML.load("config.yml");
 
 // 路径转换
 const resolvePath = (pathStr) => {
@@ -46,4 +50,5 @@ module.exports = {
   logger: logger,
   openBrowser: openBrowser,
   freePort: freePort,
+  __config: __config
 };

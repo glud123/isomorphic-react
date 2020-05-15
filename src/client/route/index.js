@@ -1,5 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
+import StyleContext from "isomorphic-style-loader/StyleContext";
 import AppRouteContainer from "@common/route";
 import AsyncLoader from "./asyncLoader";
 /**
@@ -14,6 +15,10 @@ const AppRoute = ({ mod }) => {
       pageInfo: null,
     };
   }
+  const insertCss = (...styles) => {
+    const removeCss = styles.map((style) => style._insertCss());
+    return () => removeCss.forEach((dispose) => dispose());
+  };
   // 首次加载标识
   let init = true;
   return (
@@ -34,11 +39,13 @@ const AppRoute = ({ mod }) => {
               return (
                 <AsyncLoader page={page} mod={mod}>
                   {(Comp) => (
-                    <Comp
-                      {...props}
-                      initialData={initialData.fetchData}
-                      pageInfo={initialData.pageInfo}
-                    />
+                    <StyleContext.Provider value={{ insertCss }}>
+                      <Comp
+                        {...props}
+                        initialData={initialData.fetchData}
+                        pageInfo={initialData.pageInfo}
+                      />
+                    </StyleContext.Provider>
                   )}
                 </AsyncLoader>
               );

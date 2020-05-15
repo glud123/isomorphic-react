@@ -1,6 +1,6 @@
 const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { resolvePath } = require("../util");
+const { resolvePath, __config } = require("../util");
 /**
  * webpack 默认配置文件
  */
@@ -15,8 +15,14 @@ module.exports = {
       {
         test: /\.(le|c)ss$/,
         use: [
-          MiniCssExtractPlugin.loader,
-          "css-loader",
+          'isomorphic-style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2
+            }
+          },
+          // MiniCssExtractPlugin.loader,
           "postcss-loader",
           "less-loader",
         ],
@@ -37,8 +43,16 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
+      // 是否是生产环境
       __IS_PROD__: process.env.NODE_ENV === "production",
+      // 是否是 ssr 服务端渲染
+      __IS_SSR__: __config.mode === "ssr",
+      // 是否是 spa 客户端渲染
+      __IS_SPA__: __config.mode === "spa",
+      // 是否是 同构模式
+      __IS_ISO__: __config.mode === "isomorphic",
     }),
+    new webpack.HashedModuleIdsPlugin()
   ],
   resolve: {
     alias: {

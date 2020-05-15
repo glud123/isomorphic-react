@@ -1,18 +1,17 @@
 const webpack = require("webpack");
 const { smart } = require("webpack-merge");
-const YAML = require("yamljs");
 const nodeExternals = require("webpack-node-externals");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // webpack 清理构建目录插件
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const commonConfig = require("./webpack.common");
-const { resolvePath } = require("../util");
+const { resolvePath, __config } = require("../util");
 
 const { NODE_ENV } = process.env;
 
 process.env.BABEL_ENV = "node"; // 设置 babel 运行变量
 
-const { clientSidePort } = YAML.load("config.yml");
+const { clientSidePort } = __config;
 /**
  * webpack 基础配置
  * 包括:

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import withStyles from "isomorphic-style-loader/withStyles";
 import ImageMap from "@assets/images/echarts.png";
-import "./a.less";
+import aboutLess from "./a.less";
 class About extends Component {
   constructor(props) {
     super(props);
@@ -22,4 +23,4 @@ class About extends Component {
     );
   }
 }
-export default About;
+export default withStyles(aboutLess)(About);

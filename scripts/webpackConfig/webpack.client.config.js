@@ -11,13 +11,18 @@ const OptimizeCSSPlugin = require("optimize-css-assets-webpack-plugin");
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 // 前端资源文件映射表
 const ManifestPlugin = require("webpack-manifest-plugin");
-const YAML = require("yamljs");
 const commonConfig = require("./webpack.common");
-const { resolvePath, freePort, openBrowser, logger } = require("../util");
+const {
+  resolvePath,
+  freePort,
+  openBrowser,
+  logger,
+  __config,
+} = require("../util");
 
 const { NODE_ENV } = process.env;
 
-const { clientSidePort, serverSidePort } = YAML.load("config.yml");
+const { clientSidePort, serverSidePort } = __config;
 
 /**
  * webpack 基础配置
