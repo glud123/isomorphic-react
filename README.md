@@ -1,1 +1,1 @@
-# SSR4React
+# isomorphic-react
