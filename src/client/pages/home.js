@@ -83,5 +83,5 @@ class Home extends Component {
     );
   }
 }
-
-export default withStyles(homeLess)(Home);
+Home = withStyles(homeLess)(Home);
+export default Home;

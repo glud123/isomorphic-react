@@ -23,4 +23,5 @@ class About extends Component {
     );
   }
 }
-export default withStyles(aboutLess)(About);
+About = withStyles(aboutLess)(About);
+export default About;
