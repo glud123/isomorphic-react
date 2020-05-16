@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import initialHOC from "@common/components/initialHOC";
-import homeData from "./../mock/homeData.js";
-import homeLess from "./home.less";
+import homeData from "../../mock/homeData.js";
+import homeLess from "./index.less";
 
 class Home extends Component {
   constructor(props) {

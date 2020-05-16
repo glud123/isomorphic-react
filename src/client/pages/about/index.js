@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import initialHOC from "@common/components/initialHOC";
 import ImageMap from "@assets/images/echarts.png";
-import aboutLess from "./a.less";
+import aboutLess from "./index.less";
 class About extends Component {
   constructor(props) {
     super(props);
