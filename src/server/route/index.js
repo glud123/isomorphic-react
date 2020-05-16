@@ -7,7 +7,7 @@ import AppRouteContainer from "@common/route";
  * @param {Object} pageInfo 页面描述信息
  * @param {Object} component 当前请求路径下的页面组件
  */
-const AppRoute = ({ initialData, pageInfo, component: Comp }) => {
+const AppRoute = ({ component: Comp }) => {
   return (
     <AppRouteContainer>
       {(route) => {
@@ -17,9 +17,7 @@ const AppRoute = ({ initialData, pageInfo, component: Comp }) => {
             key={route.path}
             path={path}
             exact={exact}
-            render={(props) => (
-              <Comp {...props} pageInfo={pageInfo} initialData={initialData} />
-            )}
+            render={(props) => <Comp {...props} />}
           ></Route>
         );
       }}

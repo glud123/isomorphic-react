@@ -1,22 +1,16 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import withStyles from "isomorphic-style-loader/withStyles";
+import initialHOC from "@common/components/initialHOC";
 import homeData from "./../mock/homeData.js";
 import homeLess from "./home.less";
 
 class Home extends Component {
   constructor(props) {
     super(props);
-    let initialData = props.initialData || {};
-    let pageInfo = props.pageInfo || {};
-    this.state = {
-      tdk: pageInfo.tdk,
-      listData: initialData.data,
-    };
   }
   static async getInitialProps() {
-    const fetchData = () => {
+    let fetchData = () => {
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve({
@@ -24,10 +18,12 @@ class Home extends Component {
             data: homeData,
           });
         }, 300);
+      }).then(({ code, data }) => {
+        return data;
       });
     };
     return {
-      fetchData: await fetchData(),
+      initData: await fetchData(),
       pageInfo: {
         tdk: {
           title: "首页",
@@ -37,8 +33,7 @@ class Home extends Component {
       },
     };
   }
-  createList = () => {
-    let { listData } = this.state;
+  createList = (listData) => {
     if (listData && listData.length > 0) {
       return listData.map((item, index) => {
         return (
@@ -52,25 +47,17 @@ class Home extends Component {
       return "暂无数据";
     }
   };
-  componentDidMount() {
-    if (!this.state.listData) {
-      Home.getInitialProps().then(({ fetchData, pageInfo }) => {
-        this.setState({
-          listData: fetchData.data,
-          tdk: pageInfo.tdk,
-        });
-      });
-    }
-  }
   render() {
-    let { tdk = {} } = this.state;
+    let { pageInfo, initData } = this.props.initialData;
     return (
       <div className="page">
-        <Helmet>
-          <title>{tdk.title}</title>
-          <meta name="keywords" content={tdk.keywords} />
-          <meta name="description" content={tdk.description} />
-        </Helmet>
+        {pageInfo && (
+          <Helmet>
+            <title>{pageInfo.tdk.title}</title>
+            <meta name="keywords" content={pageInfo.tdk.keywords} />
+            <meta name="description" content={pageInfo.tdk.description} />
+          </Helmet>
+        )}
         <div className="container">
           <Link to="/demo">Demo</Link>
           <Link to="/about" style={{ marginLeft: "10px" }}>
@@ -78,10 +65,10 @@ class Home extends Component {
           </Link>
         </div>
         <div>数据列表</div>
-        <div>{this.createList()}</div>
+        <div>{initData && this.createList(initData)}</div>
       </div>
     );
   }
 }
-Home = withStyles(homeLess)(Home);
+Home = initialHOC(homeLess)(Home);
 export default Home;

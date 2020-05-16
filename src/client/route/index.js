@@ -8,13 +8,6 @@ import AsyncLoader from "./asyncLoader";
  * @param {*} 客户端页面初始组件
  */
 const AppRoute = ({ mod }) => {
-  let initialData = window.__context__.initialData;
-  if (!initialData) {
-    initialData = {
-      fetchData: null,
-      pageInfo: null,
-    };
-  }
   const insertCss = (...styles) => {
     const removeCss = styles.map((style) => style._insertCss());
     return () => removeCss.forEach((dispose) => dispose());
@@ -40,11 +33,7 @@ const AppRoute = ({ mod }) => {
                 <AsyncLoader page={page} mod={mod}>
                   {(Comp) => (
                     <StyleContext.Provider value={{ insertCss }}>
-                      <Comp
-                        {...props}
-                        initialData={initialData.fetchData}
-                        pageInfo={initialData.pageInfo}
-                      />
+                      <Comp {...props} />
                     </StyleContext.Provider>
                   )}
                 </AsyncLoader>

@@ -20,22 +20,9 @@ export default async (ctx, next) => {
   // 当前请求路径下组件查找、页面初始值处理、页面信息处理
   let targetRoute = matchRoute(ctx.path);
   let pageCom = require(`@client/${targetRoute.page}`).default;
-  let fetchDataFunc = pageCom.getInitialProps;
-  let fetchResult = null;
-  let initialData = {
-    fetchData: null,
-    pageInfo: {
-      tdk: {
-        title: "默认标题",
-        keywords: "默认关键词",
-        description: "默认描述",
-      },
-    },
-  };
-  if (fetchDataFunc) {
-    fetchResult = await fetchDataFunc();
-    initialData.fetchData = fetchResult.fetchData;
-    initialData.pageInfo = fetchResult.pageInfo;
+  let initialData = null;
+  if (pageCom.getInitialProps) {
+    initialData = await pageCom.getInitialProps();
   }
   // 当前请求路径下页面css查找
   const cssSet = new Set(); // CSS for all rendered React components
@@ -46,13 +33,9 @@ export default async (ctx, next) => {
   };
   // react 渲染当前请求路径页面
   const htmlDom = renderToString(
-    <StaticRouter location={ctx.path}>
+    <StaticRouter location={ctx.path} context={{ initialData }}>
       <StyleContext.Provider value={{ insertCss }}>
-        <AppRoute
-          initialData={initialData.fetchData}
-          pageInfo={initialData.pageInfo}
-          component={pageCom}
-        />
+        <AppRoute component={pageCom} />
       </StyleContext.Provider>
     </StaticRouter>
   );
@@ -71,7 +54,7 @@ export default async (ctx, next) => {
     styles: styles.join(""),
     scripts: assetsMap.js.join(""),
     htmlDom: htmlDom,
-    initialData: serialize(fetchResult, {
+    initialData: serialize(initialData, {
       spaces: 2,
       isJson: true,
       ignoreFuction: true,
