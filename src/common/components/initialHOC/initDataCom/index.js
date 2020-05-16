@@ -18,7 +18,6 @@ export default (SourceComponent) => {
       return await SourceComponent.getInitialProps();
     }
     async componentDidMount() {
-      console.log("componentDidMount ===============>", this.state.initialData);
       if (!this.state.initialData) {
         let initialData = await SourceComponent.getInitialProps();
         console.log(initialData);
