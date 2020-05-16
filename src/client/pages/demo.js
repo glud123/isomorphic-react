@@ -14,7 +14,7 @@ class Demo extends React.Component {
         setTimeout(() => {
           resolve({
             code: 0,
-            data: { a: 111111111, b: 2222222222222 },
+            data: { a: "数据", b: "模拟" },
           });
         }, 300);
       }).then(({ code, data }) => {
