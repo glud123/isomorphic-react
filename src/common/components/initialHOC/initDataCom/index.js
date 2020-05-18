@@ -7,40 +7,18 @@ export default (SourceComponent) => {
   return class InitData extends React.Component {
     constructor(props) {
       super(props);
-      this.initialData = props.staticContext
-        ? null
-        : window.__context__.initialData;
-      this.state = {
-        initialData: this.initialData,
-      };
     }
-    static async getInitialProps() {
-      return await SourceComponent.getInitialProps();
+    static async getInitialProps(store) {
+      await SourceComponent.getInitialProps(store);
     }
-    async componentDidMount() {
-      if (!this.state.initialData) {
-        let initialData = await SourceComponent.getInitialProps();
-        console.log(initialData);
-        this.setState({
-          initialData: initialData,
-        });
+    async componentDidMount(){
+      // 客户端非首次进入时，获取对应组件的 getInitialProps 方法
+      if(!window.__INIT_STORE__){
+        await SourceComponent.getInitialProps(window.__STORE__);
       }
     }
     render() {
-      let props = { initialData: null, ...this.props };
-      if (this.props.staticContext) {
-        // node端
-        props.initialData = this.props.staticContext.initialData;
-      } else {
-        // 浏览器端
-        if (this.initialData) {
-          props.initialData = this.initialData;
-          window.__context__.initialData = null;
-        } else {
-          props.initialData = this.state.initialData || {};
-        }
-      }
-      return <SourceComponent {...props} />;
+      return <SourceComponent {...this.props} />;
     }
   };
 };

@@ -1,11 +1,13 @@
 import React from "react";
 import { StaticRouter } from "react-router";
 import { renderToString } from "react-dom/server";
+import { Provider } from "react-redux";
 import { Helmet } from "react-helmet";
 import serialize from "serialize-javascript";
 import StyleContext from "isomorphic-style-loader/StyleContext";
 import AppRoute from "../../route";
 import matchRoute from "@common/route/matchRoute";
+import appStore from "@common/redux/store";
 
 const assetsMap = require("../../util/handleAssets.js")();
 /**
@@ -17,12 +19,13 @@ export default async (ctx, next) => {
     await next();
     return;
   }
+  // 获取 store
+  const store = appStore();
   // 当前请求路径下组件查找、页面初始值处理、页面信息处理
   let targetRoute = matchRoute(ctx.path);
   let pageCom = require(`@client/${targetRoute.page}`).default;
-  let initialData = null;
   if (pageCom.getInitialProps) {
-    initialData = await pageCom.getInitialProps();
+    await pageCom.getInitialProps(store);
   }
   // 当前请求路径下页面css查找
   const cssSet = new Set(); // CSS for all rendered React components
@@ -33,11 +36,13 @@ export default async (ctx, next) => {
   };
   // react 渲染当前请求路径页面
   const htmlDom = renderToString(
-    <StaticRouter location={ctx.path} context={{ initialData }}>
-      <StyleContext.Provider value={{ insertCss }}>
-        <AppRoute component={pageCom} />
-      </StyleContext.Provider>
-    </StaticRouter>
+    <Provider store={store}>
+      <StaticRouter location={ctx.path}>
+        <StyleContext.Provider value={{ insertCss }}>
+          <AppRoute component={pageCom} />
+        </StyleContext.Provider>
+      </StaticRouter>
+    </Provider>
   );
   // 当前请求路径页面 css 整理为内嵌样式
   let styles = [];
@@ -54,7 +59,7 @@ export default async (ctx, next) => {
     styles: styles.join(""),
     scripts: assetsMap.js.join(""),
     htmlDom: htmlDom,
-    initialData: serialize(initialData, {
+    initialData: serialize(store.getState(), {
       spaces: 2,
       isJson: true,
       ignoreFuction: true,
