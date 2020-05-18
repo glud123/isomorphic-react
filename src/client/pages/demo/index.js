@@ -1,5 +1,6 @@
 import React from "react";
 import initialHOC from "@common/components/initialHOC";
+import { updateData } from "@redux/demo/action";
 import { Link } from "react-router-dom";
 class Demo extends React.Component {
   constructor(props) {
@@ -8,32 +9,20 @@ class Demo extends React.Component {
   handelClick = () => {
     alert("SSR点击测试");
   };
-  static async getInitialProps() {
-    let fetchData = () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            code: 0,
-            data: { a: "数据", b: "模拟" },
-          });
-        }, 300);
-      }).then(({ code, data }) => {
-        return data;
-      });
-    };
-    return {
-      initData: await fetchData(),
-      pageInfo: {
-        tdk: {
-          title: "首页",
-          keywords: "前端技术江湖",
-          description: "前端技术江湖",
-        },
-      },
-    };
+  static async getInitialProps(store) {
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          code: 0,
+          data: { a: "数据", b: "模拟" },
+        });
+      }, 300);
+    }).then(({ code, data }) => {
+      store.dispatch(updateData(data));
+    });
   }
   render() {
-    let { initData } = this.props.initialData;
+    let { pageData } = this.props;
     return (
       <div>
         <div>
@@ -44,14 +33,17 @@ class Demo extends React.Component {
         </div>
         <div>Demo 数据测试</div>
         <h1 onClick={this.handelClick}>点击我吧</h1>
-        {initData && (
+        {pageData && (
           <div>
-            {initData.a} - {initData.b}
+            {pageData.a} - {pageData.b}
           </div>
         )}
       </div>
     );
   }
 }
-Demo = initialHOC(Demo);
+const mapStateToProps = ({ demoReucer }) => ({ pageData: demoReucer.pageData });
+Demo = initialHOC(Demo, {
+  mapStateToProps: mapStateToProps,
+});
 export default Demo;

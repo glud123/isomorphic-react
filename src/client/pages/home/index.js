@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import initialHOC from "@common/components/initialHOC";
+import { updateListData } from "@redux/home/action";
 import homeData from "../../mock/homeData.js";
 import homeLess from "./index.less";
 
@@ -9,29 +10,17 @@ class Home extends Component {
   constructor(props) {
     super(props);
   }
-  static async getInitialProps() {
-    let fetchData = () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            code: 0,
-            data: homeData,
-          });
-        }, 300);
-      }).then(({ code, data }) => {
-        return data;
-      });
-    };
-    return {
-      initData: await fetchData(),
-      pageInfo: {
-        tdk: {
-          title: "首页",
-          keywords: "前端技术江湖",
-          description: "前端技术江湖",
-        },
-      },
-    };
+  static async getInitialProps(store) {
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          code: 0,
+          data: homeData,
+        });
+      }, 300);
+    }).then(({ code, data }) => {
+      store.dispatch(updateListData(data));
+    });
   }
   createList = (listData) => {
     if (listData && listData.length > 0) {
@@ -48,7 +37,7 @@ class Home extends Component {
     }
   };
   render() {
-    let { pageInfo, initData } = this.props.initialData;
+    let { pageInfo, listData } = this.props;
     return (
       <div className="page">
         {pageInfo && (
@@ -65,10 +54,24 @@ class Home extends Component {
           </Link>
         </div>
         <div>数据列表</div>
-        <div>{initData && this.createList(initData)}</div>
+        <div>{listData && this.createList(listData)}</div>
       </div>
     );
   }
 }
-Home = initialHOC(homeLess)(Home);
+const mapStateToProps = ({ homeReucer }) => ({
+  pageInfo: homeReucer.pagingInfo,
+  listData: homeReucer.listData,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  updateListData: (data) => {
+    return dispatch(updateListData(data));
+  },
+});
+Home = initialHOC(Home, {
+  css: homeLess,
+  mapStateToProps: mapStateToProps,
+  mapDispatchToProps: mapDispatchToProps,
+});
 export default Home;

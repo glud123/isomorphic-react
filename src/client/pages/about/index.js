@@ -23,5 +23,5 @@ class About extends Component {
     );
   }
 }
-About = initialHOC(aboutLess)(About);
+About = initialHOC(About, { css: aboutLess });
 export default About;
