@@ -56,10 +56,11 @@ module.exports = {
   ],
   resolve: {
     alias: {
-      //定义dist 目录别名，方便导入模块
+      //定义目录别名，方便导入模块
       "@client": resolvePath("src/client/"),
       "@server": resolvePath("src/server/"),
       "@common": resolvePath("src/common/"),
+      "@redux": resolvePath("src/client/redux/"),
       "@assets": resolvePath("src/client/assets/"),
       "@dist": resolvePath("dist"),
       "react-dom": "@hot-loader/react-dom",
