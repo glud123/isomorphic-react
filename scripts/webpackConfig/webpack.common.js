@@ -47,8 +47,8 @@ module.exports = {
       __IS_PROD__: process.env.NODE_ENV === "production",
       // 是否是 ssr 服务端渲染
       __IS_SSR__: __config.mode === "ssr",
-      // 是否是 spa 客户端渲染
-      __IS_SPA__: __config.mode === "spa",
+      // 是否是 csr 客户端渲染
+      __IS_CSR__: __config.mode === "csr",
       // 是否是 同构模式
       __IS_ISO__: __config.mode === "isomorphic",
     }),

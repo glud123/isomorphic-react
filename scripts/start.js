@@ -8,7 +8,7 @@ const Font = require("ascii-art-font");
 const { logger, freePort } = require("./util");
 const { serverSidePort } = YAML.load("config.yml");
 
-Font.create("PISCES", "Doom",function(err,str){
+Font.create("Gemini", "Doom",function(err,str){
   logger(str);
 })
 

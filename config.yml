@@ -2,8 +2,9 @@
 # yml 文件语法请参考 http://www.ruanyifeng.com/blog/2016/07/yaml.html
 
 # 构建模式
+# 目前只支持 同构应用
 # 默认 isomorphic   
-# ssr（服务端渲染） spa（单页应用） isomorphic（同构应用）
+# ssr（服务端渲染） csr（单页应用） isomorphic（同构应用）
 mode: "isomorphic"
 # 客户端端口 （即 webpack-dev-server 运行端口）
 clientSidePort: 3004
