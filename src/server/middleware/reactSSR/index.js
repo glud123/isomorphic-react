@@ -15,7 +15,7 @@ const assetsMap = require("../../util/handleAssets.js")();
  */
 export default async (ctx, next) => {
   // 前端热更新时触发的 hot-update.json 的请求进行拦截
-  if (ctx.path.indexOf("hot-update.json") > -1) {
+  if (ctx.path.indexOf("hot-update.json") > -1 || ctx.path.indexOf("/json") > -1) {
     await next();
     return;
   }
